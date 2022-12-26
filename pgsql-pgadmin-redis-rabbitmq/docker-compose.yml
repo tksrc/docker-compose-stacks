@@ -1,7 +1,6 @@
 services:
   # Postgres
   postgres:
-    container_name: postgres
     image: postgres:15-bullseye
     restart: always
     environment:
@@ -13,7 +12,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
   # PgAdmin
   pgadmin:
-    container_name: pgadmin4_container
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -21,9 +19,10 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - '5050:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
   # Redis
   redis:
-    container_name: redis
     image: redis:7-bullseye
     restart: always
     ports:
@@ -33,7 +32,6 @@ services:
       - redis-data:/data
   # RabbitMQ
   rabbitmq:
-    container_name: rabbitmq
     image: rabbitmq:3-management-alpine
     restart: always
     environment:
@@ -47,6 +45,7 @@ services:
         - rabbitmq-logs:/var/log/rabbitmq
 volumes:
   postgres-data:
+  pgadmin-data:
   redis-data:
   rabbitmq-data:
   rabbitmq-logs:
